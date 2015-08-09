@@ -22,10 +22,11 @@ class Inventory
 end
 
 class PriceRule
-  attr_reader :items
-  attr_reader :iQuant
-  attr_reader :discounts
-  attr_reader :dQuant
+  attr_accessor :desc
+  attr_accessor :items
+  attr_accessor :iQuant
+  attr_accessor :discounts
+  attr_accessor :dQuant
   
   def initialize(desc, items, iQuant, discounts, dQuant)
     @desc = desc #description of offer
@@ -39,9 +40,11 @@ class PriceRule
     catch :ruleFailed do
       rule.items.each_with_index { |code, index| #iterate over each item in rule
         # = = =
-        searchIndex = basket.items.index(code)
-        if searchIndex == nil
-          throw :ruleFailed
+        unless code == "£"
+        searchIndex = basket.items.index(code)        
+          if searchIndex == nil
+            throw :ruleFailed
+          end
         end
         string = rule.iQuant[index].split(":")
         case string[1]
